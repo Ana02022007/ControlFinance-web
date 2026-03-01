@@ -1,1 +1,2 @@
-export const baseUrl = import.meta.env.VITE_API_URL;
+// Configuração da URL base da API
+export const baseUrl = "https://localhost:7036/api";

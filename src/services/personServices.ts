@@ -1,6 +1,6 @@
 import { api } from "./api";
 
-const PERSON_ROUTE = "/api/person";
+const PERSON_ROUTE = "/Person";
 
 export function getAllPersons() {
   return api.get(PERSON_ROUTE);
