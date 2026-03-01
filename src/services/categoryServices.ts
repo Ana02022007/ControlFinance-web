@@ -1,6 +1,6 @@
 import { api } from "./api";
 
-const CATEGORY_ROUTE = "/api/category";
+const CATEGORY_ROUTE = "/Category";
 
 export function getAllCategories() {
   return api.get(CATEGORY_ROUTE);
