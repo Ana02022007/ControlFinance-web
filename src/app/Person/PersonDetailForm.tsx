@@ -20,7 +20,7 @@ export default function PersonDetailForm({ personId }: PersonDetailFormProps) {
     name: "",
     birthDate: "",
   });
-  // Busca dados se for edição
+
   useEffect(() => {
     if (personId) {
       setLoading(true);
@@ -33,29 +33,28 @@ export default function PersonDetailForm({ personId }: PersonDetailFormProps) {
     }
   }, [personId]);
 
- async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-  event.preventDefault();
-  setLoading(true);
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setLoading(true);
 
-  // Criamos o objeto exatamente como o C# espera
-  const payload = {
-    ...person,
-    transaction: [] // Enviando a lista vazia para satisfazer o C#
-  };
+    const payload = {
+      ...person,
+      transaction: []
+    };
 
-  try {
-    if (personId) {
-      await updatePerson(personId, payload);
-    } else {
-      await createPerson(payload);
-      navigate("/person/search");
+    try {
+      if (personId) {
+        await updatePerson(personId, payload);
+      } else {
+        await createPerson(payload);
+        navigate("/person/search");
+      }
+    } catch (error) {
+      console.error("Erro na operação:", error);
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error("Erro na operação:", error);
-  } finally {
-    setLoading(false);
   }
-}
 
   return (
     <div className="container mt-4">
@@ -77,6 +76,7 @@ export default function PersonDetailForm({ personId }: PersonDetailFormProps) {
             required
           />
         </div>
+
         <div className="col-md-2">
           <label className="form-label">Data de Nascimento</label>
           <input
@@ -85,16 +85,16 @@ export default function PersonDetailForm({ personId }: PersonDetailFormProps) {
             value={person.birthDate}
             onChange={(e) => setPerson({ ...person, birthDate: e.target.value })}
             required
-          />  
+          />
         </div>
 
         <div className="col-12 mt-3">
           <button type="submit" disabled={loading}>
             {loading ? "Salvando..." : "Salvar"}
           </button>
-          <button 
-            type="button" 
-            disabled={loading} 
+          <button
+            type="button"
+            disabled={loading}
             onClick={() => navigate(-1)}
           >
             Cancelar

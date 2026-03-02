@@ -3,6 +3,7 @@ import { createCategory } from "../../services/categoryServices";
 import { useNavigate } from "react-router-dom";
 
 type Category = {
+  id: number;
   description: string;
   purpose: string;
 };
@@ -11,6 +12,7 @@ export default function CategoryDetailForm() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState<Category>({
+    id: 0,
     purpose: "",
     description: "",
   });
@@ -20,7 +22,7 @@ export default function CategoryDetailForm() {
     setLoading(true);
 
     const payload = {
-      description: category.description.trim(),
+      ...category,
       purpose: category.purpose,
     };
 
@@ -30,7 +32,7 @@ export default function CategoryDetailForm() {
     } catch (error) {
       console.error("Erro na operação:", error);
       if ((error as any)?.response?.data) {
-        console.error("Detalhes validação:", (error as any).response.data);
+        console.log(JSON.stringify((error as any).response.data, null, 2));
       }
     } finally {
       setLoading(false);
@@ -44,7 +46,7 @@ export default function CategoryDetailForm() {
       <form onSubmit={handleSubmit} className="row g-3">
         <div className="col-md-2">
           <label className="form-label">Código</label>
-          <input className="form-control" disabled />
+          <input className="form-control" value={category.id} disabled />
         </div>
 
         <div className="col-md-6">
@@ -58,7 +60,7 @@ export default function CategoryDetailForm() {
           />
         </div>
 
-        <div className="col-md-4">
+        <div className="col-md-3">
           <label className="form-label">Finalidade</label>
           <select
             className="form-control"
@@ -67,9 +69,9 @@ export default function CategoryDetailForm() {
             required
           >
             <option value="">Selecione</option>
-            <option value="INCOME">Receita</option>
-            <option value="EXPENSE">Despesa</option>
-            <option value="BOTH">Ambas</option>
+            <option value="RECEITA">Receita</option>
+            <option value="DESPESA">Despesa</option>
+            <option value="AMBAS">Ambas</option>
           </select>
         </div>
 
@@ -77,9 +79,9 @@ export default function CategoryDetailForm() {
           <button type="submit" disabled={loading}>
             {loading ? "Salvando..." : "Salvar"}
           </button>
-          <button 
-            type="button" 
-            disabled={loading} 
+          <button
+            type="button"
+            disabled={loading}
             onClick={() => navigate(-1)}
           >
             Cancelar

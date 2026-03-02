@@ -33,17 +33,16 @@ export default function PersonDropDown({ personId }: PersonDropDownProps) {
           <p>Tem certeza que deseja excluir a pessoa de código <strong>{personId}</strong>?</p>
           
           <div className="d-flex gap-2">
-            <button 
-              className="btn btn-danger" 
-              onClick={handleDelete} 
+            <button
+              className="btn btn-danger"
+              onClick={handleDelete}
               disabled={loading}
             >
               {loading ? "Excluindo..." : "Confirmar exclusão"}
             </button>
-
-            <button 
-              type="button" 
-              onClick={() => navigate(-1)} 
+            <button
+              type="button"
+              onClick={() => navigate(-1)}
               disabled={loading}
             >
               Cancelar

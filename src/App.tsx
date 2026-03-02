@@ -8,6 +8,8 @@ import CategorySearchPage from './pages/category';
 import CategoryCreatePage from './pages/category/create';
 import TransactionSearchPage from './pages/transaction';
 import TransactionCreatePage from './pages/transaction/create';
+import PageForCategory from './pages/totalForCategory';
+import PageForPerson from './pages/totalForPerson';
 
 function App() {
   return (
@@ -17,22 +19,30 @@ function App() {
         element={
           <>
             <h1>Bem-Vindo ao Control Finance!</h1>
-            <h2>Qual tela deseja ser direcionada?</h2>
-            <div className="card">
-              <Link to="/person/search">
-                <button>Pessoas</button>
-              </Link>
-              <Link to="/category/search">
-                <button>Categorias</button>
-              </Link>
-              <Link to="/transaction/search">
-                <button>Transações</button>
-              </Link>
+            <div className="center">
+              <h2>Qual tela deseja ser direcionada?</h2>
+              <div className="card">
+                <Link to="/person/search">
+                  <button>Pessoas</button>
+                </Link>
+                <Link to="/category/search">
+                  <button>Categorias</button>
+                </Link>
+                <Link to="/transaction/search">
+                  <button>Transações</button>
+                </Link>
+                <Link to="/total/search">
+                  <button>Total por Pessoa</button>
+                </Link>
+                <Link to="/total/search">
+                  <button>Total por Categoria</button>
+                </Link>
+              </div>
             </div>
           </>
         }
       />
-    
+
       {/* Person Routes */}
       <Route path="/person/create" element={<PersonCreatePage />} />
       <Route path="/person/search" element={<PersonSearchPage />} />
@@ -46,6 +56,10 @@ function App() {
       {/* Transaction Routes */}
       <Route path="/transaction/create" element={<TransactionCreatePage />} />
       <Route path="/transaction/search" element={<TransactionSearchPage />} />
+
+      <Route path="/total/search" element={<PageForPerson />} />
+
+      <Route path="/total/search" element={<PageForCategory />} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

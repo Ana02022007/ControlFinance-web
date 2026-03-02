@@ -16,7 +16,7 @@ export default function CategorySearchForm() {
     setLoading(true);
     getAllCategories()
       .then((response) => {
-        const data = response.data.categories || response.data;
+        const data = response.data;
         setCategories(Array.isArray(data) ? data : []);
       })
       .catch((error) => console.error("Erro ao buscar:", error))

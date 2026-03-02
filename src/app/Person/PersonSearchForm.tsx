@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { getAllPersons } from "../../services/personServices";
 import { Link, useNavigate } from "react-router-dom";
 
-// Ajuste no tipo: birthDate vem como string do JSON
 type Person = {
   id: number;
   name: string;
-  birthDate: string; 
+  birthDate: string;
 };
 
 export default function PersonSearchForm() {
@@ -18,24 +17,21 @@ export default function PersonSearchForm() {
     setLoading(true);
     getAllPersons()
       .then((response) => {
-        // Trata se vier a lista pura ou o objeto com .persons
-        const data = response.data.persons || response.data;
+        const data = response.data;
         setPersons(Array.isArray(data) ? data : []);
       })
       .catch((error) => console.error("Erro ao buscar:", error))
       .finally(() => setLoading(false));
   }, []);
 
-  // Função de renderização das ações (usando o seu estilo)
   function renderActions(person: Person) {
     return (
       <div>
-        <button 
+        <button
           onClick={() => navigate(`/person/delete/${person.id}`)}
         >
           Excluir
         </button>
-
         <button
           onClick={() => navigate(`/person/update/${person.id}`)}
         >
@@ -49,23 +45,19 @@ export default function PersonSearchForm() {
 
   return (
     <div className="container mt-4">
-
-
-        <h2>Pessoas</h2>
-  <div className="d-flex align-items-center gap-2">
-    <Link to="/App">
-        <button>Voltar</button>
-    </Link>
-
-    <Link to="/person/create">
-        <button>Criar Pessoa</button>
-    </Link>
-   </div>
+      <h2>Pessoas</h2>
+      <div className="d-flex align-items-center gap-2">
+        <Link to="/App">
+          <button>Voltar</button>
+        </Link>
+        <Link to="/person/create">
+          <button>Criar Pessoa</button>
+        </Link>
+      </div>
 
       {persons.length === 0 ? (
-        <div >Nenhuma pessoa encontrada.</div>
+        <div>Nenhuma pessoa encontrada.</div>
       ) : (
-
         <div className="table-responsive">
           <table className="table table-hover border">
             <thead className="table-light">
