@@ -1,0 +1,32 @@
+#root {
+  margin: 0 auto;
+  padding: 0rem;
+}
+
+.card {
+  padding: 2em;
+}
+
+.page {
+  width: 100%;
+}
+
+.geral-actions-left {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+}
+
+.geral-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.geral-list {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
