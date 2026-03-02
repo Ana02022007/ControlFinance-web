@@ -1,3 +1,6 @@
+// Página de listagem de Transações
+// Exibe o formulário de busca de transações em um container
+
 import TransactionSearchForm from "../../app/Transaction/TransactionSearchForm";
 
 export default function TransactionSearchPage() {

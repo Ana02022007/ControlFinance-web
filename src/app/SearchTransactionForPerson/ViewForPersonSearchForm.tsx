@@ -1,43 +1,52 @@
+// Formulário de visualização de Total de Transações por Pessoa
+// Exibe relatório com:
+// - Receitas, despesas e saldo de cada pessoa
+// - Totais globais do sistema
+// - Formata valores em moeda BRL
+
 import { useEffect, useState } from "react";
 import { getTotalsPersons } from "../../services/personServices";
 import { Link } from "react-router-dom";
 
-// 1. Defina o tipo de cada indivíduo
+// Tipo que define dados de uma pessoa no relatório
 type Person = {
-  id: number;
-  name: string;
-  totalRevenue: number;
-  totalExpense: number;
-  total: number;
+  id: number;            // ID único da pessoa
+  name: string;          // Nome da pessoa
+  totalRevenue: number;  // Total de receitas
+  totalExpense: number;  // Total de despesas
+  total: number;         // Saldo (receita - despesa)
 };
 
-// 2. Defina o tipo do objeto que a API retorna
+// Tipo que define a resposta completa da API
 type TotalsResponse = {
-  persons: Person[];
-  grandTotalRevenue: number;
-  grandTotalExpense: number;
-  grandTotal: number;
+  persons: Person[];           // Lista de pessoas com totais
+  grandTotalRevenue: number;   // Receita total do sistema
+  grandTotalExpense: number;   // Despesa total do sistema
+  grandTotal: number;          // Saldo total do sistema
 };
 
 export default function PersonSearchForm() {
-  // Inicializamos como null ou com valores zerados para evitar erros de undefined
+  // Estado: Dados de totais retornados da API
   const [data, setData] = useState<TotalsResponse | null>(null);
+  // Estado: Indica se está carregando dados
   const [loading, setLoading] = useState(false);
 
+  // Carrega dados de totais ao montar o componente
   useEffect(() => {
     setLoading(true);
     getTotalsPersons()
       .then((response) => {
-        // Ajuste conforme a estrutura exata do seu axios/fetch
+        // Armazena dados retornados da API
         setData(response.data); 
       })
       .catch((error) => console.error("Erro ao buscar:", error))
       .finally(() => setLoading(false));
   }, []);
 
+  // Mostra mensagem enquanto carrega
   if (loading) return <div className="container mt-4"><p>Carregando...</p></div>;
 
-  // Se não houver dados ou a lista estiver vazia
+  // Se não houver dados ou lista vazia
   if (!data || !data.persons || data.persons.length === 0) {
     return (
       <div className="container mt-4">
@@ -51,12 +60,15 @@ export default function PersonSearchForm() {
   return (
     <div className="container mt-4">
       <h2>Total de Transações por Pessoas</h2>
+      
+      {/* Botão de navegação */}
       <div className="d-flex align-items-center gap-2 mb-3">
         <Link to="/App">
           <button className="btn btn-primary">Voltar</button>
         </Link>
       </div>
 
+      {/* Tabela com dados de cada pessoa */}
       <div className="table-responsive">
         <table className="table table-hover border">
           <thead className="table-light">
@@ -69,12 +81,16 @@ export default function PersonSearchForm() {
             </tr>
           </thead>
           <tbody>
+            {/* Mapeia cada pessoa para uma linha da tabela */}
             {data.persons.map((person) => (
               <tr key={person.id}>
                 <td>{person.id}</td>
                 <td>{person.name}</td>
+                {/* Exibe receitas formatadas em BRL */}
                 <td>R$ {person.totalRevenue.toLocaleString()}</td>
+                {/* Exibe despesas formatadas em BRL */}
                 <td>R$ {person.totalExpense.toLocaleString()}</td>
+                {/* Exibe saldo com cor: verde se positivo, vermelho se negativo */}
                 <td className={person.total >= 0 ? "text-success" : "text-danger"}>
                   R$ {person.total.toLocaleString()}
                 </td>
@@ -84,11 +100,12 @@ export default function PersonSearchForm() {
         </table>
       </div>
 
-        <div><strong>Quantidade de pessoas:</strong> {data.persons.length}</div>
-        <div><strong>Total geral de receitas:</strong> R$ {data.grandTotalRevenue.toLocaleString()}</div>
-        <div><strong>Total geral de despesas:</strong> R$ {data.grandTotalExpense.toLocaleString()}</div>
-        <div className="h5 mt-2">
-          <strong>Saldo geral:</strong> R$ {data.grandTotal.toLocaleString()}
+      {/* Resumo com totais globais */}
+      <div><strong>Quantidade de pessoas:</strong> {data.persons.length}</div>
+      <div><strong>Total geral de receitas:</strong> R$ {data.grandTotalRevenue.toLocaleString()}</div>
+      <div><strong>Total geral de despesas:</strong> R$ {data.grandTotalExpense.toLocaleString()}</div>
+      <div className="h5 mt-2">
+        <strong>Saldo geral:</strong> R$ {data.grandTotal.toLocaleString()}
       </div>
     </div>
   );
